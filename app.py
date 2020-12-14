@@ -2,6 +2,7 @@
 
 from flask import Flask, request, render_template
 import torch
+import os
 #from transformers import BertForQuestionAnswering
 #from transformers import BertTokenizer
 from transformers import AutoTokenizer, AutoModelForQuestionAnswering
