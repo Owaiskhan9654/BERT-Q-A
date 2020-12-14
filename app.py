@@ -2,11 +2,14 @@
 
 from flask import Flask, request, render_template
 import torch
-from transformers import BertForQuestionAnswering
-from transformers import BertTokenizer
+#from transformers import BertForQuestionAnswering
+#from transformers import BertTokenizer
+from transformers import AutoTokenizer, AutoModelForQuestionAnswering
 app = Flask(__name__)
 
-
+name = "mrm8488/bert-small-finetuned-squadv2"
+tokenizer = AutoTokenizer.from_pretrained(name,)
+model = AutoModelForQuestionAnswering.from_pretrained(name)
 
 
 
@@ -18,8 +21,8 @@ def answer_question(question, answer_text):
     answer. Prints them out.
     '''
 
-    model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
-    tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
+    #model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
+    #tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
     # ======== Tokenize ========
     # Apply the tokenizer to the input text, treating them as a text-pair.
     input_ids = tokenizer.encode(question, answer_text)
@@ -92,7 +95,7 @@ def bert():
         elif answer_text == '':
             predict='Please Enter your Abstract Also'
 
-    return render_template('index.html', prediction=predict)
+    return render_template('index.html', prediction=predict,question=question)
 
 
 if __name__ == '__main__':
